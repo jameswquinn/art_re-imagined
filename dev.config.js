@@ -81,13 +81,33 @@ module.exports = {
         loader: "css-loader",
 
         options: {
-          sourceMap: true
+          sourceMap: false
         }
       }, {
         loader: "sass-loader",
 
         options: {
-          sourceMap: true
+          sourceMap: false
+        }
+      }]
+    },       
+    /**
+    * We've added 'responsive-loader', a webpack loader for responsive images.
+    * It creates multiple images from one source image,
+    * and returns a srcset.
+    *
+    * https://github.com/herrstucki/responsive-loader
+    *
+    * @example    <img srcset={require("example.jpg?min=320,max=1400,steps=6").srcSet} alt="" loading="lazy"/>
+    *
+    *
+    */
+   {
+      test: /\.(jpe?g|png|webp)$/i,
+      use: [{
+        loader: 'responsive-loader',
+        options: {
+          disable: true
         }
       }]
     }]

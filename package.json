@@ -39,5 +39,9 @@
     "preact-async-route": "^2.2.1",
     "preact-helmet": "^4.0.0-alpha-3",
     "preact-router": "^3.2.1"
-  }
+  },
+  "main": "index.js",
+  "repository": "https://github.com/jameswquinn/art_re-imagined.git",
+  "author": "jameswquinn <jameswquinn@users.noreply.github.com>",
+  "license": "MIT"
 }
