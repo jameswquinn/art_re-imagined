@@ -10,10 +10,40 @@ import AsyncRoute from 'preact-async-route';
 
 
 
-import "./skeleton.css"
+//import "./skeleton.css"
 import "./styles.css"
 
 const NODE = document.body.querySelector("#root");
+
+
+// This component expects 2 props:
+//   text - the text to display
+//   maxLength - how many characters to show before "read more"
+function LessText({ text, maxLength }) {
+  // Create a piece of state, and initialize it to `true`
+  // `hidden` will hold the current value of the state,
+  // and `setHidden` will let us change it
+  const [hidden, setHidden] = useState(true);
+
+  // If the text is short enough, don't bother with the
+  // buttons
+  if (text <= maxLength) {
+    return <span>{text}</span>;
+  }
+
+  return (
+    <span>
+      {hidden
+        ? `${text.substr(0, maxLength).trim()} ...`
+        : text}
+      {hidden ? (
+        <a onClick={() => setHidden(false)}> read more</a>
+      ) : (
+        <a onClick={() => setHidden(true)}> read less</a>
+      )}
+    </span>
+  );
+};
 
 
 const Home = () => (
@@ -63,9 +93,10 @@ const Home = () => (
         <button>ok</button>
         </figcaption>
     </figure>
-    <p>The preserveAspectRatio attribute indicates how an element with a viewBox providing a given aspect ratio must fit into a viewport with a different aspect ratio.
-
-Because the aspect ratio of an SVG image is defined by the viewBox attribute, if this attribute isn't set, the preserveAspectRatio attribute has no effect/</p>
+    <LessText className="paragraph"
+      text={`It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).`}
+      maxLength={35}
+    />
     
     {/*
       <picture className="aspectRatioSizer set_aspect__ratio16x9"> 
