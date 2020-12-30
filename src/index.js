@@ -56,6 +56,7 @@ const OptimizedBooleanState = () => {
       <div>
         Boolean is set to <b className={isToggled ? "hidden" : "showing"}>{String(isToggled)}</b>.
       </div>
+      <div className={`tag ${isToggled? "isActive":""}`}>{String(isToggled)}</div>
       {/*<RendersCounter onClick={toggle} />*/}
       <div>
       <button style={{ marginLeft: '10px' }} onClick={toggle}>
