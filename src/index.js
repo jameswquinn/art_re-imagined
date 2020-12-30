@@ -2,7 +2,8 @@ console.log('Hello World from your main file!');
 /** @jsx h */
 import { h, Component, render, Fragment, createContext, hydrate, toChildArray } from "preact";
 import { useRef, useReducer, useMemo, useLayoutEffect, useImperativeHandle, useErrorBoundary, useDebugValue, useContext, useEffect, useCallback, useState } from 'preact/hooks';
-import React from "preact/compat";
+import { forwardRef, createPortal, Suspense, lazy } from 'preact/compat';
+//import React from "preact/compat";
 import Helmet from "preact-helmet";
 import { Router } from "preact-router";
 import { Link } from 'preact-router/match';
@@ -16,34 +17,54 @@ import "./styles.css"
 const NODE = document.body.querySelector("#root");
 
 
-// This component expects 2 props:
-//   text - the text to display
-//   maxLength - how many characters to show before "read more"
-function LessText({ text, maxLength }) {
-  // Create a piece of state, and initialize it to `true`
-  // `hidden` will hold the current value of the state,
-  // and `setHidden` will let us change it
-  const [hidden, setHidden] = useState(true);
-
-  // If the text is short enough, don't bother with the
-  // buttons
-  if (text <= maxLength) {
-    return <span>{text}</span>;
-  }
+const Example = ({title}) => {
+  const [visible, setVisible] = useState(false);
 
   return (
-    <span>
-      {hidden
-        ? `${text.substr(0, maxLength).trim()} ...`
-        : text}
-      {hidden ? (
-        <a onClick={() => setHidden(false)}> read more</a>
-      ) : (
-        <a onClick={() => setHidden(true)}> read less</a>
-      )}
-    </span>
+    <div>
+      <p>{title}</p>
+      
+      <button onClick={() => setVisible(!visible)}>
+        visibility : {!visible ? "hidden" : "showing"}
+      </button>
+      {visible && <p>Its toggling visibility</p>}
+    </div>
   );
 };
+
+
+
+// it might be a project-level reusable hook
+const useToggle = (initialState) => {
+  const [isToggled, setIsToggled] = useState(initialState);
+
+  // put [setIsToggled] into the useCallback's dependencies array
+  // this value never changes so the callback is not going to be ever re-created
+  const toggle = useCallback(
+    () => setIsToggled(state => !state),
+    [setIsToggled],
+  );
+
+  return [isToggled, toggle];
+}
+
+const OptimizedBooleanState = () => {
+  const [isToggled, toggle] = useToggle(false);
+
+  return (
+    <div>
+      <div>
+        Boolean is set to <b>{String(isToggled)}</b>.
+      </div>
+      {/*<RendersCounter onClick={toggle} />*/}
+      <div>
+      <button style={{ marginLeft: '10px' }} onClick={toggle}>
+        toggle
+      </button>
+    </div>
+    </div>
+  );
+}
 
 
 const Home = () => (
@@ -93,10 +114,12 @@ const Home = () => (
         <button>ok</button>
         </figcaption>
     </figure>
+ {   /*
     <LessText className="paragraph"
       text={`It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).`}
       maxLength={35}
     />
+    */}
     
     {/*
       <picture className="aspectRatioSizer set_aspect__ratio16x9"> 
@@ -126,6 +149,7 @@ const App = () => (
       titleTemplate="%s | MyAwesomeWebsite.com"
     />
     <Home />
+    <OptimizedBooleanState />
   </div>
 );
 
