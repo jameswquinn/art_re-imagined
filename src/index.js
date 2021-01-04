@@ -101,10 +101,10 @@ const Home = () => (
       */}
     <figure className="aspectRatioSizer veiwport">
       <picture>
-        <source srcset={require("./images/5d5ab57dd382479b5f35745670e9c98b-1.jpg?min=320,max=1024,steps=6&format=webp").srcSet} type='image/webp' media="(orientation: landscape)" />
-        <source srcset={require("./images/0539e6324fa2aa8bd260f8c043145352-1.jpg?min=320,max=1024,steps=6&format=webp").srcSet} type='image/webp' media="(orientation: portrait)" />
-        <source srcset={require("./images/5d5ab57dd382479b5f35745670e9c98b-1.jpg?min=320,max=1024,steps=6").srcSet} type='image/jpeg' media="(orientation: landscape)" />
-        <source srcset={require("./images/0539e6324fa2aa8bd260f8c043145352-1.jpg?min=320,max=1024,steps=6").srcSet} type='image/jepg' media="(orientation: portrait)" />
+        <source srcset={require("./images/5d5ab57dd382479b5f35745670e9c98b-1.jpg?min=768,max=1440,steps=3&format=webp").srcSet} type='image/webp' media="(orientation: landscape)" />
+        <source srcset={require("./images/0539e6324fa2aa8bd260f8c043145352-1.jpg?min=320,max=768,steps=3&format=webp").srcSet} type='image/webp' media="(orientation: portrait)" />
+        <source srcset={require("./images/5d5ab57dd382479b5f35745670e9c98b-1.jpg?min=768,max=1440,steps=3").srcSet} type='image/jpeg' media="(orientation: landscape)" />
+        <source srcset={require("./images/0539e6324fa2aa8bd260f8c043145352-1.jpg?min=320,max=768,steps=3").srcSet} type='image/jepg' media="(orientation: portrait)" />
         <img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
           alt=""
           loading="lazy"
