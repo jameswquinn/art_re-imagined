@@ -1,7 +1,7 @@
 console.log('Hello World from your main file!');
 /** @jsx h */
 import { h, Component, render, Fragment, createContext, hydrate, toChildArray } from "preact";
-import { useRef, useReducer, useMemo, useLayoutEffect, useImperativeHandle, useErrorBoundary, useDebugValue, useContext, useEffect, useCallback, useState } from 'preact/hooks';
+import { useRef, useReducer, useMemo, useLayoutEffect, useImperativeHandle, useErrorBoundary, useDebugValue, useEffect, useCallback, useState } from 'preact/hooks';
 import { forwardRef, createPortal, Suspense, lazy } from 'preact/compat';
 //import React from "preact/compat";
 import Helmet from "preact-helmet";
@@ -9,12 +9,45 @@ import { Router } from "preact-router";
 import { Link } from 'preact-router/match';
 import AsyncRoute from 'preact-async-route';
 
+import { Home, Like, Comment, More, Save, Tagged, Posts, Loading, Find, Direct } from './svg.jsx';
 
 
 //import "./skeleton.css"
 import "./styles.css"
 
 const NODE = document.body.querySelector("#root");
+
+import axios from 'axios';
+
+function SearchResults() {
+  const [data, setData] = useState({ hits: [] });
+  const [query, setQuery] = useState('react');
+
+  useEffect(() => {
+    let ignore = false;
+
+    async function fetchData() {
+      const result = await axios('https://hn.algolia.com/api/v1/search?query=' + query);
+      if (!ignore) setData(result.data);
+    }
+
+    fetchData();
+    return () => { ignore = true; }
+  }, [query]);
+
+  return (
+    <>
+      <input value={query} onChange={e => setQuery(e.target.value)} />
+      <ul>
+        {data.hits.map(item => (
+          <li key={item.objectID}>
+            <a href={item.url}>{item.title}</a>
+          </li>
+        ))}
+      </ul>
+    </>
+  );
+}
 
 
 const Example = ({title}) => {
@@ -68,7 +101,7 @@ const OptimizedBooleanState = () => {
 }
 
 
-const Home = () => (
+const Cover = () => (
   <Fragment>
     <Helmet
       title="Changing My Title Hay James Yet Another Page"
@@ -149,8 +182,33 @@ const App = () => (
       title="My Title"
       titleTemplate="%s | MyAwesomeWebsite.com"
     />
+    <Cover />
     <Home />
+
+    <Like />
+
+    <Comment />
+
+
+    <Save />
+
+    <Tagged />
+
+    <Posts />
+
+
+    <Loading />
+
+
+    <Find />
+
+    <Direct />
+
+    
+
+
     <OptimizedBooleanState />
+    <SearchResults />
   </div>
 );
 
